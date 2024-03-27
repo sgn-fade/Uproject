@@ -40,9 +40,7 @@ public class ListInterpolation extends Interpolator {
     public void sort() {
         java.util.Collections.sort(data);
     }
-    /**
-     * @param args
-     */
+
     public static void main(String[] args) {
         ListInterpolation fun = new ListInterpolation();
         int num;

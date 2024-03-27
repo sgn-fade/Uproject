@@ -17,7 +17,7 @@ public class FFunction implements Evaluatable {
 
     @Override
     public double evalf(double x) {
-        return Math.exp(-a*x*x)*Math.sin(x);
+        return Math.exp(-a*x)*Math.sin(x);
     }
     public static void main(String[] args) {
     }
