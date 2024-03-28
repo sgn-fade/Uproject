@@ -2,18 +2,18 @@ import java.io.*;
 
 public class DerivativeApplication {
     public static void main(String[] args) throws IOException {
-        Evaluatable functs[] = new Evaluatable[3];
+        Evaluatable functs[] = new Evaluatable[2];
         functs[0] = new FFunction(0.5);
-        functs[1] = new FileListInterpolation();
+        functs[1] = new ListInterpolation();
         try {
-            ((FileListInterpolation) functs[1]).readFromFile("TblFunc.dat");
+            FileLoader.readFromFile("TblFunc.dat", (ListInterpolation) functs[1]);
         } catch (IOException ex) {
             ex.printStackTrace();
             System.exit(-1);
         }
         String fileName = "";
         for (Evaluatable f : functs) {
-            System.out.println("Функція: " + f.getClass().getSimpleName());
+            System.out.println("Функція: " +    f.getClass().getSimpleName());
             fileName = f.getClass().getSimpleName() + ".dat";
             PrintWriter out = new PrintWriter(new FileWriter(fileName));
             for (double x = 1.5; x <= 6.5; x += 0.05) {
