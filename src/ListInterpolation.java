@@ -1,3 +1,4 @@
+import java.io.IOException;
 import java.util.*;
 public class ListInterpolation extends Interpolator {
     private List<Point2D> data = null;
@@ -73,5 +74,10 @@ public class ListInterpolation extends Interpolator {
         System.out.println("Точне значення sin(" + x + ") = " + Math.sin(x));
         System.out.println("Абсолютна помилка = " +
                 Math.abs(fun.evalf(x)-Math.sin(x)));
+        try {
+            FileLoader.writeToFile("ListInt.csv", fun);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

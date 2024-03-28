@@ -6,7 +6,7 @@ public class DerivativeApplication {
         functs[0] = new FFunction(0.5);
         functs[1] = new ListInterpolation();
         try {
-            FileLoader.readFromFile("TblFunc.dat", (ListInterpolation) functs[1]);
+            FileLoader.readFromFile("ListInt.csv", (ListInterpolation) functs[1]);
         } catch (IOException ex) {
             ex.printStackTrace();
             System.exit(-1);
