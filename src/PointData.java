@@ -2,6 +2,7 @@ public class PointData implements Comparable<PointData> {
     private double[] coords = null;
 
     public PointData(double x, double y) {
+        this.coords = new double[2];
         setCoord(1, x); setCoord(2, y);
     }
     public PointData() {

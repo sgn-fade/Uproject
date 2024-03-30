@@ -1,7 +1,7 @@
 import java.io.*;
 
 public abstract class FileLoader {
-    public static void readFromFile(String fileName, ListInterpolation Int) throws IOException {
+    public static void readFromFile(String fileName, Interpolator Int) throws IOException {
         BufferedReader in = new BufferedReader(new FileReader(fileName));
         String line = in.readLine();
         Int.clear();
@@ -13,7 +13,7 @@ public abstract class FileLoader {
         }
         in.close();
     }
-    public static void writeToFile(String fileName, ListInterpolation Int) throws IOException {
+    public static void writeToFile(String fileName, Interpolator Int) throws IOException {
         PrintWriter out = new PrintWriter(new FileWriter(fileName));
         out.println("x"+ ";" + "y");
         for (int i = 0; i < Int.numPoints(); i++) {
