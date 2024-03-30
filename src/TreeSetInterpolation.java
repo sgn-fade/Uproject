@@ -1,13 +1,12 @@
-import java.util.List;
 import java.util.TreeSet;
 
 public class TreeSetInterpolation extends Interpolator{
-    private TreeSet<Point2D> data = null;
+    private TreeSet<PointData> data = null;
 
     public TreeSetInterpolation() {
     }
 
-    public TreeSetInterpolation(TreeSet<Point2D> data) {
+    public TreeSetInterpolation(TreeSet<PointData> data) {
         this.data = data;
     }
 
@@ -22,14 +21,14 @@ public class TreeSetInterpolation extends Interpolator{
     }
 
     @Override
-    public void addPoint(Point2D pt) {
+    public void addPoint(PointData pt) {
         data.add(pt);
     }
 
     @Override
-    public Point2D getPoint(int i) {
+    public PointData getPoint(int i) {
         int n = 0;
-        for (Point2D point : data) {
+        for (PointData point : data) {
             if (n == i) {
                 return point;
             }
@@ -39,8 +38,8 @@ public class TreeSetInterpolation extends Interpolator{
     }
 
     @Override
-    public void setPoint(int i, Point2D pt) {
-        Point2D p = getPoint(i);
+    public void setPoint(int i, PointData pt) {
+        PointData p = getPoint(i);
         data.add(pt);
         addPoint(pt);
     }

@@ -1,16 +1,16 @@
 import java.io.IOException;
 import java.util.*;
 public class ListInterpolation extends Interpolator {
-    private List<Point2D> data = null;
-    public ListInterpolation(List<Point2D> data) {
+    private List<PointData> data = null;
+    public ListInterpolation(List<PointData> data) {
         this.data = data;
     }
     public ListInterpolation() {
-        data = new ArrayList<Point2D>();
+        data = new ArrayList<PointData>();
     }
-    public ListInterpolation(Point2D[] data) {
+    public ListInterpolation(PointData[] data) {
         this();
-        for (Point2D pt : data)
+        for (PointData pt : data)
             this.data.add(pt);
     }
     @Override
@@ -22,15 +22,15 @@ public class ListInterpolation extends Interpolator {
         return data.size();
     }
     @Override
-    public void addPoint(Point2D pt) {
+    public void addPoint(PointData pt) {
         data.add(pt);
     }
     @Override
-    public Point2D getPoint(int i) {
+    public PointData getPoint(int i) {
         return data.get(i);
     }
     @Override
-    public void setPoint(int i, Point2D pt) {
+    public void setPoint(int i, PointData pt) {
         data.set(i, pt);
     }
     @Override
@@ -54,7 +54,7 @@ public class ListInterpolation extends Interpolator {
         for (int i = 0; i < num; i++)
         {
             x = 1.0 + (5.0 - 1.0)*Math.random();
-            fun.addPoint(new Point2D(x, Math.sin(x)));
+            fun.addPoint(new PointData(x, Math.sin(x)));
         }
         System.out.println("Інтерполяція по: " + fun.numPoints() + " точкам");
         System.out.println("Несортований набір: ");

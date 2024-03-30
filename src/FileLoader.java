@@ -1,5 +1,4 @@
 import java.io.*;
-import java.util.StringTokenizer;
 
 public abstract class FileLoader {
     public static void readFromFile(String fileName, ListInterpolation Int) throws IOException {
@@ -10,7 +9,7 @@ public abstract class FileLoader {
             String[] data = line.split(";");
             double x = Double.parseDouble(data[0]);
             double y = Double.parseDouble(data[1]);
-            Int.addPoint(new Point2D(x, y));
+            Int.addPoint(new PointData(x, y));
         }
         in.close();
     }

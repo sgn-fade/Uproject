@@ -15,12 +15,12 @@ public class TreeMapInterpolation extends Interpolator{
     }
 
     @Override
-    public void addPoint(Point2D pt) {
+    public void addPoint(PointData pt) {
         data.put(pt.getX(), pt.getY());
     }
 
     @Override
-    public Point2D getPoint(int i) {
+    public PointData getPoint(int i) {
         Map.Entry<Double, Double> e = null;
         Iterator<Map.Entry<Double, Double>> it = data.entrySet().iterator();
         while (0 <= i--) {e = it.next();}
@@ -29,14 +29,14 @@ public class TreeMapInterpolation extends Interpolator{
         if (e != null) {
             x = e.getKey();
             y = e.getValue();
-            return new Point2D(x, y);
+            return new PointData(x, y);
         }
         return null;
     }
 
     @Override
-    public void setPoint(int i, Point2D pt) {
-        Point2D p = getPoint(i);
+    public void setPoint(int i, PointData pt) {
+        PointData p = getPoint(i);
         data.remove(p.getX());
         addPoint(pt);
     }
