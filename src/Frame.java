@@ -1,15 +1,6 @@
-
-import java.awt.BorderLayout;
-import java.awt.Color;
-import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import java.awt.FlowLayout;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
+import edu.hws.jcm.data.Expression;
+import edu.hws.jcm.data.Parser;
+import edu.hws.jcm.data.Variable;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartPanel;
 import org.jfree.chart.JFreeChart;
@@ -18,16 +9,28 @@ import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.xy.XYSeries;
 import org.jfree.data.xy.XYSeriesCollection;
 import org.jfree.ui.RectangleInsets;
-import java.awt.event.ActionListener;
+
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import java.awt.*;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 public class Frame extends JFrame {
     private JPanel contentPane;
     private JTextField textFieldA;
-    private XYSeries series;
+    private JTextField textFieldF;
+    private JTextField Start;
+    private JTextField Stop;
+    private JTextField Step;
+    private XYSeries funSeries = new XYSeries("Function");
+    private XYSeries derSeries = new XYSeries("Derivative");
+
     /**
      * Launch the application.
      */
     public static void main(String[] args) {
+
+
         EventQueue.invokeLater(new Runnable() {
             public void run() {
                 try {
@@ -59,14 +62,30 @@ public class Frame extends JFrame {
         JButton btnNewButtonPlot = new JButton("Plot");
         btnNewButtonPlot.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                funSeries.clear();
+                derSeries.clear();
+                Parser parser = new Parser(Parser.STANDARD_FUNCTIONS);
+                Variable var = new Variable("x");
+                Variable par = new Variable("a");
+                parser.add(var);
+                parser.add(par);
+                String funStr = String.valueOf(textFieldF.getText());
+                Expression fun = parser.parse(funStr);
+                Expression der = fun.derivative(var);
+                par.setVal(1.0);
+                parser.remove("a");
+
                 double start = -9.0;
                 double stop = 9.0;
                 double step = 0.01;
                 double a = 0;
                 a = Double.parseDouble(textFieldA.getText());
-                series.clear();
+                par.setVal(a);
+
                 for (double x = start; x < stop; x += step) {
-                    series.add(x, f(a, x));
+                    var.setVal(x);
+                    funSeries.add(x, fun.getVal());
+                    derSeries.add(x, der.getVal());
                 }
             }
         });
@@ -83,9 +102,9 @@ public class Frame extends JFrame {
 
         JLabel FunLabel = new JLabel("F(x):");
         panelData.add(FunLabel);
-        JTextField textFieldB = new JTextField();
-        textFieldB.setText("y = sin(a x) / x");
-        panelData.add(textFieldB);
+        textFieldF = new JTextField();
+        textFieldF.setText("sin(a*x) / x");
+        panelData.add(textFieldF);
         JLabel lblNewLabel = new JLabel("a:");
         panelData.add(lblNewLabel);
         textFieldA = new JTextField();
@@ -101,18 +120,10 @@ public class Frame extends JFrame {
         return Math.sin(a * x) / x;
     }
     private JFreeChart createChart() {
-        series = new XYSeries("Function");
-        double start = -9.0;
-        double stop = 9.0;
-        double step = 0.01;
-        double a = 0;
-        a = Double.parseDouble(textFieldA.getText());
-        for (double x = start; x < stop; x += step) {
-            series.add(x, f(a, x));
-        }
         XYSeriesCollection dataset = new XYSeriesCollection();
-        dataset.addSeries(series);
-        JFreeChart chart = ChartFactory.createXYLineChart("y = sin(a x) / x",
+        dataset.addSeries(derSeries);
+        dataset.addSeries(funSeries);
+        JFreeChart chart = ChartFactory.createXYLineChart("",
 // chart title
                 "X", // x axis label
                 "Y", // y axis label
@@ -123,20 +134,11 @@ public class Frame extends JFrame {
         );
 // NOW DO SOME OPTIONAL CUSTOMISATION OF THE CHART...
         chart.setBackgroundPaint(Color.white);
-// get a reference to the plot for further customisation...
         XYPlot plot = (XYPlot) chart.getPlot();
         plot.setBackgroundPaint(Color.lightGray);
         plot.setAxisOffset(new RectangleInsets(5.0, 5.0, 5.0, 5.0));
         plot.setDomainGridlinePaint(Color.white);
         plot.setRangeGridlinePaint(Color.white);
-// XYLineAndShapeRenderer renderer
-// = (XYLineAndShapeRenderer) plot.getRenderer();
-// renderer.setShapesVisible(false);
-// renderer.setShapesFilled(false);
-// change the auto tick unit selection to integer units only...
-// NumberAxis rangeAxis = (NumberAxis) plot.getRangeAxis();
-// rangeAxis.setStandardTickUnits(NumberAxis.createIntegerTickUnits());
-// OPTIONAL CUSTOMISATION COMPLETED.
         return chart;
     }
 }
